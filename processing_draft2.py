@@ -38,7 +38,9 @@ dest_bucket = 'cannaspyglass-datalake-processed-dev'
 def p_data(s_bucket, file_path):
     raw_df = pd.read_excel(f's3://{s_bucket}/{file_path}/', header=1, skipfooter=0)
     raw_df.columns = ['status', 'licenseNumber','entityName','city','state','postalCode','firstName', 'lastName', 'phone']
-    raw_df = raw_df.fillna('No')
+    raw_df[['status']] = raw_df[['status']].fillna('No')
+    raw_df = raw_df.fillna('NA')
+    raw_df[['status']] = raw_df[['status']].replace('ü', 'Yes')
     print(raw_df)
 
 # def p_data(s_bucket, file_path, d_bucket, d_file):
